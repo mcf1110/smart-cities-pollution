@@ -20,10 +20,11 @@ def h3_to_query(h3id):
              SUM(CASE WHEN roadtype = 2 THEN 1 ELSE 0 END) as count_primary_street, 
              SUM(CASE WHEN roadtype = 4 THEN 1 ELSE 0 END) as count_primary_ramps
            FROM jams
-           WHERE ST_WITHIN(ST_POINT(line[1].y, line[1].x), ST_POLYGON('POLYGON(({poly}))')) AND month = 4 AND year=2019 AND hour between 6 and 18)
+           WHERE ST_WITHIN(ST_POINT(line[1].y, line[1].x), ST_POLYGON('POLYGON(({poly}))')) AND month = 4 AND year=2019 AND hour between 6 and 18
+           GROUP BY day)
     SELECT 
         MAX(counta) as max_counta,
-        AVG(max_length) / max_counta as avg_congested_prop,
+        AVG(max_length) / MAX(counta) as avg_congested_prop,
         MAX(max_length) as max_length,
         AVG(mean_speed) as avg_speed,
         MIN(median_level) as min_median_level,
