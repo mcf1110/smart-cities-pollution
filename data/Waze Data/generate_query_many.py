@@ -51,7 +51,7 @@ def many_h3_to_query(h3ids):
         AVG(mean_speed) as avg_speed,
         MIN(median_level) as min_median_level,
         MAX(bool_highway) as bool_highway,
-        MAX(count_highway) as bool_ramps,
+        MAX(bool_ramps) as bool_ramps,
         SUM(count_highway) as count_highway,
         SUM(count_streets) as count_streets,
         SUM(count_primary) as count_primary,
