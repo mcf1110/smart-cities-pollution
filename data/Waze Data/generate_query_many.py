@@ -2,6 +2,11 @@ import h3 as h3
 import pandas as pd
 import numpy as np
 
+col=['avg_congested_prop', 'max_length', 'avg_speed', 'min_median_level',
+       'bool_highway', 'bool_ramps', 'count_highway', 'count_streets',
+       'count_primary', 'count_secondary', 'count_primary_street',
+       'count_primary_ramps']
+
 def h3_to_poly(h3id):
      geo = h3.h3_to_geo_boundary(h3id)
      return ','.join([f'{g[0]} {g[1]}' for g in geo])
@@ -45,7 +50,6 @@ def many_h3_to_query(h3ids):
             GROUP BY day, h3id)
     SELECT 
         h3id,
-        MAX(counta) as max_counta,
         AVG(max_length) / MAX(counta) as avg_congested_prop,
         MAX(max_length) as max_length,
         AVG(mean_speed) as avg_speed,
