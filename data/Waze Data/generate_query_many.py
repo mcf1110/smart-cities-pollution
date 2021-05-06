@@ -1,12 +1,20 @@
 import h3 as h3
 import pandas as pd
+import numpy as np
+
+col=['avg_congested_prop', 'max_length', 'avg_speed', 'min_median_level',
+       'bool_highway', 'bool_ramps', 'count_highway', 'count_streets',
+       'count_primary', 'count_secondary', 'count_primary_street',
+       'count_primary_ramps']
 
 def h3_to_poly(h3id):
      geo = h3.h3_to_geo_boundary(h3id)
      return ','.join([f'{g[0]} {g[1]}' for g in geo])
 def many_h3_to_query(h3ids):
     polys = map(h3_to_poly, h3ids)
-
+    bounds = np.array([p for h in h3ids for p in h3.h3_to_geo_boundary(h) ])
+    minLat, minLon = bounds.min(axis=0)-1e-15
+    maxLat, maxLon = bounds.max(axis=0)+1e-15
 
     whens = [f"WHEN ST_WITHIN(ST_POINT(line[1].y, line[1].x), ST_POLYGON('POLYGON(({poly}))')) THEN '{h3id}'" for (h3id, poly) in zip(h3ids, polys)]
     joined = " ".join(whens)
@@ -18,7 +26,9 @@ def many_h3_to_query(h3ids):
               (CASE {joined} ELSE NULL END) as h3id,
               uuid, length, speed, level, day, roadtype
             FROM jams
-            WHERE month = 4 AND year=2019 AND hour between 6 and 18
+            WHERE month = 4 AND year=2019 AND hour between 6 and 18 
+                  AND line[1].y >= {minLat} AND line[1].y <= {maxLat}
+                  AND line[1].x >= {minLon} AND line[1].x <= {maxLon}
         ),
     daily AS (
             SELECT
@@ -40,13 +50,12 @@ def many_h3_to_query(h3ids):
             GROUP BY day, h3id)
     SELECT 
         h3id,
-        MAX(counta) as max_counta,
         AVG(max_length) / MAX(counta) as avg_congested_prop,
         MAX(max_length) as max_length,
         AVG(mean_speed) as avg_speed,
         MIN(median_level) as min_median_level,
         MAX(bool_highway) as bool_highway,
-        MAX(count_highway) as bool_ramps,
+        MAX(bool_ramps) as bool_ramps,
         SUM(count_highway) as count_highway,
         SUM(count_streets) as count_streets,
         SUM(count_primary) as count_primary,
