@@ -1,6 +1,10 @@
-# smart-cities-pollution
+# Smart Cities
 
-## Checklist y Data
+## Predicting Pollution from Waze Data
+
+![São Paulo prediction for Marginal do Tietê](./readme.png)
+
+## Checklist `y` Data
 
 | City       | NO2                | NO                 | BC  |
 | ---------- | ------------------ | ------------------ | --- |
