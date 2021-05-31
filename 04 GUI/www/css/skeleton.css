@@ -604,3 +604,7 @@ body {
         background-position-x: 128px;
     }
 }
+
+h5 {
+    text-align: center;
+}

@@ -21,13 +21,27 @@
             {% for (normalized, upper) in cities %}
             <a class="button {{'button-primary' if current == normalized else ''}}" href="{{normalized}}.html">{{upper}}</a> {% endfor %}
         </div>
+        {% if current != 'index' %}
+        <div class="grid">
+            {% for t in times %}
+            {% if t %}
+            <a class="button {{'button-primary' if current_time == t else ''}}" href="{{current}}_{{t}}.html">
+            {{time_format(t)}}
+            </a> 
+            {%endif%}{% endfor %}
+        </div>
+        {% endif %}
 
+        {% if current_time %}
         {% for (normalized, upper) in cities %} {% if normalized != 'index' and (current == 'index' or current == normalized) %}
         <article>
             <h3>{{upper}}</h3>
-            <iframe src="maps/{{normalized}}.html" frameborder="0"></iframe>
+            <iframe src="maps/{{normalized}}_{{current_time}}.html" frameborder="0"></iframe>
         </article>
         {% endif %} {% endfor %}
+        {%else%}
+            <h5>Please choose from the options above</h5>
+        {%endif%}
     </div>
 
 </body>
