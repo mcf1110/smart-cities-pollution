@@ -1,6 +1,18 @@
-# Smart Cities
+# Smart Cities - Predicting Pollution from Waze Data
 
-## Predicting Pollution from Waze Data
+Este projeto contempla o uso de dados de poluição atmosférica coletados na cidade de Oakland, CA, combinados com informações de trânsito do Waze e dados de vias do OpenStreeMaps, para gerar predições de índices de poluição atmosférica em diferentes regiões da cidade. O modelo foi então ajustado para outras cidades, como São Paulo, Quito, Lima e Montevideo, utilizando dados de estações de medição de poluição destas cidades.
+
+Este repositório contém o código-fonte usado para treinar os modelos, para a inclusão de dados de estações de cada cidade contemplada, para execução das predições e geração de mapas de visualização.
+
+Mais informações disponíveis no relatório de produto em:
+
+*Colocar aqui o endereço do relatório*
+
+## Visualização dos Dados
+
+A visualização dos dados avalidos está disponível no endereço:
+
+https://smart-cities-pollution.netlify.app/
 
 ![São Paulo prediction for Marginal do Tietê](./readme.png)
 
